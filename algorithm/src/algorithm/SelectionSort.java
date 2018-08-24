@@ -1,5 +1,6 @@
 package algorithm;
 
+import com.itcast.entity.SortTestHelper;
 import com.itcast.entity.Student;
 
 public class SelectionSort {
@@ -34,7 +35,7 @@ public class SelectionSort {
 	}
 
 	public static void main(String[] args) {
-
+/*
 		Integer[] a = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
 
 		SelectionSort.sort(a);
@@ -70,6 +71,14 @@ public class SelectionSort {
 		for (int i = 0; i < d.length; i++) {
 			System.out.println(d[i]);
 		}
+		System.out.println("");
+		*/
+		int N = 8000;
+		Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 300);
+		SelectionSort.sort(arr);
+		SortTestHelper.printArray(arr);
+		
+		return;
 
 	}
 
