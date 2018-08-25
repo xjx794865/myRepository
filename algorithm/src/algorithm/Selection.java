@@ -1,7 +1,12 @@
 package algorithm;
 
+/**
+ * 选择排序 int类型的数组
+ * @author Lenovo
+ *
+ */
 public class Selection {
-
+    //私有化构造器 不允许外界调用
 	private Selection() {
 
 	}
@@ -42,9 +47,9 @@ public class Selection {
 		int a[] = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
 
 		Selection.selectionSort(a);
-		
-		for(int i = 0; i<a.length ;i++) {
-			System.out.print(a[i]+" ");
+
+		for (int i = 0; i < a.length; i++) {
+			System.out.print(a[i] + " ");
 		}
 
 	}

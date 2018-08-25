@@ -3,6 +3,12 @@ package algorithm;
 import com.itcast.entity.SortTestHelper;
 import com.itcast.entity.Student;
 
+
+/**
+ * 任意类型的数据 选择排序
+ * @author Lenovo
+ *
+ */
 public class SelectionSort {
 
 	private SelectionSort() {
@@ -35,7 +41,7 @@ public class SelectionSort {
 	}
 
 	public static void main(String[] args) {
-/*
+        //测试整型
 		Integer[] a = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
 
 		SelectionSort.sort(a);
@@ -54,6 +60,7 @@ public class SelectionSort {
 
 		// 测试Double
 		Double[] c = { 4.4, 3.3, 2.2, 1.1 };
+	
 		SelectionSort.sort(c);
 		for (int i = 0; i < c.length; i++) {
 			System.out.print(c[i] + " ");
@@ -72,11 +79,10 @@ public class SelectionSort {
 			System.out.println(d[i]);
 		}
 		System.out.println("");
-		*/
-		int N = 8000;
-		Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 300);
-		SelectionSort.sort(arr);
-		SortTestHelper.printArray(arr);
+		
+		int N = 10000;
+		Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 500);
+		SortTestHelper.testSort("algorithm.SelectionSort", arr);
 		
 		return;
 
