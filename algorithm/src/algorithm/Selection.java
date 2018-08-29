@@ -1,4 +1,4 @@
-package algorithm;
+ package algorithm;
 
 /**
  * 选择排序 int类型的数组
@@ -25,7 +25,7 @@ public class Selection {
 
 					minIndex = j;
 
-					// 如果直接写 arr[i] = arr[minIndex] 只是交换地址 不交换值
+					// 如果直接写 arr[i] = arr[minIndex] 只是交换地址 不交换值 
 					swap(arr, i, minIndex);
 
 				}

@@ -1,7 +1,11 @@
 package algorithm;
 
 import com.itcast.entity.SortTestHelper;
-
+/**
+ * 插入排序的第二种方法
+ * @author Lenovo
+ *
+ */
 public class InsertionSort {
 
 	private InsertionSort() {

@@ -20,7 +20,7 @@ public class Main {
 		Integer[] arr2 = Arrays.copyOf(arr1, arr1.length);
 		
 		SortTestHelper.testSort("algorithm.InsertionSort", arr2);
-		SortTestHelper.testSort("algorithm.SelectionSort", arr1);
+		SortTestHelper.testSort("algorithm.MergeSort", arr1);
 
 	}
 
