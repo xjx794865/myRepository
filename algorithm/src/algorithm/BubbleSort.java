@@ -12,6 +12,7 @@ public class BubbleSort {
 		boolean swapped = false;
 
 		do {
+			//用于最后让程序跳出
 			swapped = false;
 
 			for (int i = 1; i < n; i++) {

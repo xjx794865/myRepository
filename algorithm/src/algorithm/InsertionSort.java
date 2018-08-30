@@ -18,15 +18,16 @@ public class InsertionSort {
 		for (int i = 1; i < n; i++) {
             //将要比较的数存起来
 			Comparable e = arr[i];
-
-			int j;
+   
+			int j;//j保存着e最终存放的位置
 			for (j = i; j > 0 && arr[j - 1].compareTo(e) > 0; j--) {
 
 				arr[j] = arr[j - 1];
 
 			}
-	
+	        
 			arr[j] = e;
+			
 
 		}
 	}

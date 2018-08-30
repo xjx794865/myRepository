@@ -42,7 +42,7 @@ public class BubbleSort2 {
 
 		Integer[] a = { 8, 9, 5, 4, 3, 7, 6, 2, 1, 0 };
 
-		BubbleSort.sort(a);
+		BubbleSort2.sort(a);
 
 		for (int i = 0; i < a.length; i++)
 			System.out.print(a[i] + " ");
