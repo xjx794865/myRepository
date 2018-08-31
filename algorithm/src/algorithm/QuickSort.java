@@ -10,6 +10,9 @@ public class QuickSort {
     // 对arr[l...r]部分进行partition操作
     // 返回p, 使得arr[l...p-1] < arr[p] ; arr[p+1...r] > arr[p]
     private static int partition(Comparable[] arr, int l, int r){
+    	
+    	//使用随机索引付给V，使得快速排序算法在近乎有序的数组中也可以使用
+        swap(arr,l,(int)Math.random()*(l-r+1)+l);
 
         Comparable v = arr[l];
 
@@ -53,10 +56,14 @@ public class QuickSort {
 
         // Quick Sort也是一个O(nlogn)复杂度的算法
         // 可以在1秒之内轻松处理100万数量级的数据
-       Integer[] a = {5,7,9,6,3,4};
-       QuickSort.sort(a);
-       for(int i = 0;i<a.length;i++) {
-    	   System.out.print(a[i]+" ");
+    	int swapTimes = 100;
+    	Integer[] arr = SortTestHelper.generateNearlyOrderedArray(1000000, swapTimes);
+    	SortTestHelper.testSort("algorithm.QuickSort", arr);
+    	
+    	// int N = 1000000;
+     //    Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 100000);
+       //  SortTestHelper.testSort("algorithm.QuickSort", arr);
+      
        }
     }
-}
+
