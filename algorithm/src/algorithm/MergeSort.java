@@ -46,7 +46,10 @@ public class MergeSort {
         int mid = (l+r)/2;
         sort(arr, l, mid);
         sort(arr, mid + 1, r);
-        merge(arr, l, mid, r);
+      
+       merge(arr, l, mid, r);
+        
+        
     }
 
     public static void sort(Comparable[] arr){
@@ -62,10 +65,13 @@ public class MergeSort {
         // 可以在1秒之内轻松处理100万数量级的数据
         // 注意：不要轻易尝试使用SelectionSort, InsertionSort或者BubbleSort处理100万级的数据
         // 否则，你就见识了O(n^2)的算法和O(nlogn)算法的本质差异：）
-        int N = 10;
+       int N = 10;
         Integer[] arr = {8,7,6,5};
         SortTestHelper.testSort("algorithm.MergeSort", arr);
         SortTestHelper.printArray(arr);
+    	
+    	 
+    	
       
        
     }

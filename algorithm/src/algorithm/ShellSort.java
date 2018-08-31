@@ -38,7 +38,7 @@ public class ShellSort {
 
 	public static void main(String[] args) {
 
-		Integer[] a = { 8, 9, 5, 7, 6, 1, 11 };
+		Integer[] a = { 9, 7, 6, 5, 4, 1 };
 
 		ShellSort.sort(a);
 
