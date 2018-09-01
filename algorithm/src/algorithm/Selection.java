@@ -23,10 +23,10 @@ public class Selection {
 
 				if (arr[j] < arr[minIndex]) {
 
-					minIndex = j; 
+				//	minIndex = j; 
 
 					// 如果直接写 arr[i] = arr[minIndex] 只是交换地址 不交换值 
-					swap(arr, i, minIndex);
+					swap(arr, j, minIndex);
 
 				}
 			}

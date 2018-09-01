@@ -49,7 +49,7 @@ public class MergeSortBU {
 	// ≤‚ ‘ MergeSort BU
 	public static void main(String[] args) {
 
-		Integer[] a = { 9, 8, 7, 3};
+		Integer[] a = { 9, 8, 7, 3,2,1,0};
 
 		MergeSortBU.sort(a);
 

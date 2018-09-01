@@ -27,7 +27,7 @@ public class SelectionSort {
 
 					minIndex = j;
 
-				swap(arr, i, minIndex);
+				swap(arr,i, minIndex);
 
 			}
 		}

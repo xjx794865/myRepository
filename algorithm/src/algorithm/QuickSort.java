@@ -12,6 +12,7 @@ public class QuickSort {
     private static int partition(Comparable[] arr, int l, int r){
     	
     	//使用随机索引付给V，使得快速排序算法在近乎有序的数组中也可以使用
+    	// 随机在arr[l...r]的范围中, 选择一个数值作为标定点pivot
         swap(arr,l,(int)Math.random()*(l-r+1)+l);
 
         Comparable v = arr[l];
@@ -56,7 +57,7 @@ public class QuickSort {
 
         // Quick Sort也是一个O(nlogn)复杂度的算法
         // 可以在1秒之内轻松处理100万数量级的数据
-    	int swapTimes = 100;
+    	int swapTimes = 1000000;
     	Integer[] arr = SortTestHelper.generateNearlyOrderedArray(1000000, swapTimes);
     	SortTestHelper.testSort("algorithm.QuickSort", arr);
     	
