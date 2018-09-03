@@ -1,6 +1,7 @@
 package com.zxhy.webservice.Util;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutorCompletionService;
@@ -10,6 +11,7 @@ import java.util.concurrent.Semaphore;
 
 import com.sun.media.jfxmedia.logging.Logger;
 import com.zxhy.webservice.entity.Message;
+import com.zxhy.webservice.entity.UpdateInfo;
 
 public class ThreadPool {
 	/**
@@ -21,39 +23,37 @@ public class ThreadPool {
 	 */
 	
 	
-	public static void ExecutorCompletionService(String[] antennas, String content) {
+	public static void ExecutorCompletionService(UpdateInfo info) {
 
-		// String receiveMessage = null;
-
-		int numThread = antennas.length + 1;
-		// 线程池中线程装多少
-		ExecutorService executior = Executors.newFixedThreadPool(numThread);
-
+		List<String> terms = info.terms;
+		String content = info.content;
 		
-
+		// 线程池中线程装多少
+		ExecutorService executior = Executors.newFixedThreadPool(terms.size()+1);
+		
 		// 判断端口是否被占用
-		 if (PortUtil.isPortUsing(6000)) {
-		 executior.execute(new MyUDPReceive());
-		 }
-
-		for (int i = 0; i < antennas.length; i++) {
-
-			// submit 传一个接口的实现类
-			// 提交一次开一个线程
-			 executior.execute(new MyRunnable(antennas[i], content));
-			// UDPreceive3.map.put(antennas[i],null);
-			//System.out.println(new MyRunnable(antennas[i], content));
-			//MyUDPReceive1.map.put(antennas[i], new MyRunnable(antennas[i], content));
-			//System.out.println(MyUDPReceive1.map);
+		if (PortUtil.isPortUsing(6000)) 
+		{
+			System.out.println("Start UDP revieve thread...");
+			executior.execute(new MyUDPReceive1());
 		}
 
+		for (int i = 0; i < terms.size(); i++) 
+		{
+			// submit 传一个接口的实现类
+			// 提交一次开一个线程
+			MyRunnable2 updateThread = new MyRunnable2(terms.get(i), content);
+			executior.execute(updateThread);
+			MyUDPReceive1.map.put(terms.get(i), updateThread);
+		}
 		 //executior.shutdown();
-
 	}
 
-	public static void ExectorCompletionServiceForUpgrate(String[] antennas, String AMC, String VERSION, String SIZE,
-			String size) {
-
+	public static void ExectorCompletionServiceForUpgrate(UpdateInfo info) 
+	{
+		
+//String[] antennas, String AMC, String VERSION, String SIZE, String size --- from content
+/*		
 		int numThread = antennas.length + 1;
 
 		ExecutorService executior = Executors.newFixedThreadPool(numThread);
@@ -69,7 +69,6 @@ public class ThreadPool {
 			// 提交一次开一个线程
 			executior.submit(new Mycallable(antennas[i], AMC, VERSION, SIZE, size));
 		}
-
+*/
 	}
-
 }

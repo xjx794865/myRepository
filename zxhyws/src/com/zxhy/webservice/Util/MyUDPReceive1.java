@@ -11,16 +11,17 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-public class MyUDPReceive1 {
+public class MyUDPReceive1 implements Runnable{
 
-	public static Map<String, Object> map = new HashMap<String, Object>();
-
-	public static void fun() {
+	public static Map<String, MyRunnable2> map = new HashMap<String, MyRunnable2>();
+    
+	@Override
+	public  void run() {
 		
 		int num = 1;
 		while (true) {
 
-			Logger logger = Logger.getLogger(UDPreceive3.class);
+			Logger logger = Logger.getLogger(MyUDPReceive1.class);
 			Properties props = new Properties();
 			try {
 				props.load(UDPreceive3.class.getClassLoader().getResourceAsStream("log4j.properties"));
@@ -60,16 +61,16 @@ public class MyUDPReceive1 {
 			String receiveText = StringUtil.toReceiveMessage(receiveMessage);
 			logger.info(receiveMessage);
 			//map.put(antenna, receiveText);
-			MyRunnable handle = (MyRunnable) map.get(antenna);
-			//handle.sendMessage(receiveText);
+			MyRunnable2 handle =  map.get(antenna);
+			handle.sendMsg(receiveText);
 			
 			
 			logger.info(map);
 			logger.info("终端连接个数" + num++);
 			socket.close();
-
 	}
 
 	}
+
 
 }

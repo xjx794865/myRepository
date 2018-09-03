@@ -1,16 +1,23 @@
 package com.zxhy.webservice.Util;
 
 import java.io.IOException;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.Callable;
+
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+
+/**
+ * °æ±¾1
+ * @author Lenovo
+ *
+ */
 
 public class MyUDPReceive implements Runnable {
 

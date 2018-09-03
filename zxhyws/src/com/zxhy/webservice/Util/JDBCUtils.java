@@ -45,19 +45,10 @@ public class JDBCUtils {
 	       
 
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			//throw new RuntimeException(e);
+			e.printStackTrace();
 		}
 	}
-
-	/*
-	 * 返回连接池对象
-	 */
-	public static DataSource getDataSource() {
-		return dataSource;
-		
-	}
-	
-
 	
 	 //从连接池中获取一个连接
     public static Connection getConnection() throws IOException{

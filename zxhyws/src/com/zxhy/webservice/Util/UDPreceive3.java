@@ -36,7 +36,7 @@ public class UDPreceive3 {
 
 				InetAddress inet = InetAddress.getByName("127.0.0.1");
 
-				byte[] date2 = "002,U,P,OK".getBytes();
+				byte[] date2 = "002,U,P,FAIL".getBytes();
 
 				DatagramPacket response = new DatagramPacket(date2, date2.length, inet, 6000);
 
