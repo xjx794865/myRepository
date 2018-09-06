@@ -11,7 +11,7 @@ import java.util.List;
 public class GUIDUtil {
 	
 	/**
-     * 遍历tb_upgradecontent的GUID，将所有的GUID返回.
+     * 遍历tbl_upgradecontent的GUID，将所有的GUID返回.
      * @return
      * @throws SQLException
      * @throws IOException 
@@ -23,7 +23,7 @@ public class GUIDUtil {
 		Connection conn = JDBCUtils.getConnection();
 		List<String> list = new ArrayList<String>();
 
-		String sql = "SELECT * from tb_upgradecontent";
+		String sql = "SELECT * from tbl_upgradecontent";
 
 		PreparedStatement psata = conn.prepareStatement(sql);
 

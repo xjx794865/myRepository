@@ -19,7 +19,7 @@ public class PidUtils {
 		Connection conn = JDBCUtils.getConnection();
 		List<String> list = new ArrayList<String>();
 
-		String sql = "SELECT antenna_no from tb_upgraderecord where Pid = 0";
+		String sql = "SELECT antenna_no from tbl_upgraderecord where Pid = 0";
 
 		PreparedStatement psata = conn.prepareStatement(sql);
 
@@ -48,7 +48,7 @@ public class PidUtils {
 		
 		Connection conn = JDBCUtils.getConnection();
 		
-		String sql = "SELECT Pid from tb_upgraderecord where antenna_no = ?";
+		String sql = "SELECT Pid from tbl_upgraderecord where antenna_no = ?";
 		
 		PreparedStatement psata = conn.prepareStatement(sql);
 		

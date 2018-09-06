@@ -33,7 +33,7 @@ public class MyUDPReceive implements Runnable{
 			// 设置接受端口
 			DatagramSocket socket = null;
 			try {
-				socket = new DatagramSocket(6000);
+				socket = new DatagramSocket(8900);
 			} catch (SocketException e) {
 				logger.error(e.getMessage());
 				e.printStackTrace();
@@ -46,7 +46,7 @@ public class MyUDPReceive implements Runnable{
 			try {
 				socket.receive(receivePacket);
 			} catch (IOException e) {
-				logger.error(e.getMessage());
+				logger.error(e.getMessage()+"接收线程出错...");
 				e.printStackTrace();
 			}
 
@@ -58,13 +58,30 @@ public class MyUDPReceive implements Runnable{
 			String antenna = StringUtil.toAntenna_no(receiveMessage);
 			// U,P,XXX
 			String receiveText = StringUtil.toReceiveMessage(receiveMessage);
-			logger.info(receiveMessage);
+			logger.info("myUDPReceive :"+receiveMessage);
 			// map.put(antenna, receiveText);
+			if (map.get(antenna) instanceof MyRunnable)
+			{
 				MyRunnable handle = (MyRunnable) map.get(antenna);
 				handle.sendMsg(receiveText);
-			
+				//get到map后就將對應的k   remove
+				map.remove(antenna);
+			} else if (map.get(antenna) instanceof MyProgramRunnable) 
+			{
+				MyProgramRunnable programhandle = (MyProgramRunnable) map.get(antenna);
+				programhandle.sendMsg(receiveText);
+				//get到map后就將對應的k    remove
+				map.remove(antenna);
+			} else if (map.get(antenna) instanceof MySatelliteRunnable)
+			{
+				MySatelliteRunnable satellitehandle = (MySatelliteRunnable) map.get(antenna);
+				satellitehandle.sendMsg(receiveText);
+				//get到map后就將對應的k    remove
+				map.remove(antenna);
+			}
+
 			logger.info(map);
-			logger.info("终端连接个数" + num++);
+			logger.info("终端连接次数" + num++);
 			socket.close();
 		}
 

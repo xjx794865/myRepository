@@ -8,7 +8,7 @@ public class ServerPulish {
 	
 	public static void main(String[] args) {
 		
-		String address =  "http://192.168.204.1:3000/zxhywebservice/upgradeversion";
+		String address =  "http://118.178.126.145:12345/zxhywebservice/upgradeversion";
 		
 		Endpoint.publish(address, new UpgradeVersionImpl());
 		

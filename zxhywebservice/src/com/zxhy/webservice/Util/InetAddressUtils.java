@@ -23,7 +23,7 @@ public class InetAddressUtils {
 		String address = null;
 		
 		Connection conn = JDBCUtils.getConnection();
-		String sql = "SELECT address FROM tb_inetaddress WHERE antenna_no = ?";
+		String sql = "SELECT address FROM tbl_terminals WHERE TermID = ?";
 		
 		try {
 			PreparedStatement stat= conn.prepareStatement(sql);
@@ -63,7 +63,7 @@ public class InetAddressUtils {
 		int port = 0;
 		
 		Connection conn = JDBCUtils.getConnection();
-		String sql = "SELECT port FROM tb_inetaddress WHERE antenna_no = ?";
+		String sql = "SELECT port FROM tbl_terminals WHERE TermID = ?";
 		
 		try {
 			PreparedStatement stat = conn.prepareStatement(sql);

@@ -1,14 +1,11 @@
 package com.zxhy.webservice.Util;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Properties;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -21,12 +18,15 @@ import org.apache.log4j.PropertyConfigurator;
  */
 public class MyRunnable implements Runnable {
 
-	boolean receiveSem = false;
 	public String Msg = null;
+	
+	private String flag = "P";
 
 	private String antenna;
 
 	private String content;
+	
+	private Semaphore recvSemophore = new Semaphore(0);
 
 	/**
 	 * 构造器 用于传入天线号和content 由于传入的天线号不同 发送的终端就不同
@@ -54,6 +54,7 @@ public class MyRunnable implements Runnable {
 		PropertyConfigurator.configure(props);
 
 		String receivedMessage = null;
+		
 
 		// U,P,content
 		String message = StringUtil.toMessage(content);
@@ -62,120 +63,83 @@ public class MyRunnable implements Runnable {
 		Connection conn = null;
 		try {
 			conn = JDBCUtils.getConnection();
-		} catch (IOException e2) {
+		} catch (Exception e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-
-		InetAddress inet = null;
-
-		DatagramSocket socket = null;
-		try {
-			inet = InetAddress.getByName(InetAddressUtils.returnAddress(antenna));
-		} catch (UnknownHostException e1) {
-
-			logger.error(e1.getMessage());
-			throw new RuntimeException(e1);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			socket = new DatagramSocket();
-		} catch (SocketException e1) {
-
-			logger.error(e1.getMessage());
-			throw new RuntimeException(e1);
-		}
-
-		// 获得要发送的信息并打包
-		byte[] data = message.getBytes();
-
-		// 设置阻塞时间
-		// socket.setSoTimeout(TIMEOUT);
-
-		DatagramPacket sendPacket = null;
-
-		try {
-			sendPacket = new DatagramPacket(data, data.length, inet, InetAddressUtils.returnPort(antenna));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		// 循环次数
-		int tries = 0;
-		//int failTries = 0;
-		while (true) {
-
-			tries++;
-			logger.debug("信号发送次数："+tries);;
+		
+		while (true) 
+		{			
+			System.out.println("start sendMessageUtil...");
+			SendMessageUtil.sendContent(antenna, message,flag);
+			
+			boolean isSemAvilable = false;
 			try {
-				socket.send(sendPacket);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				Thread.sleep(3000);
+				isSemAvilable = recvSemophore.tryAcquire(30000, TimeUnit.MILLISECONDS);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
-			if (tries > 10) {
-				logger.error(antenna + ":天线升级出现异常，请检查");
-			}
-
-			receivedMessage = Msg;
-
-			if (receiveSem) {
-
-				if (receivedMessage.equals("U,P,SUCCESS")) 
-				{
-					try {
-						String sql = "UPDATE tb_upgraderecord SET Pid = 1 WHERE antenna_no = ?";
-						PreparedStatement pstat = conn.prepareStatement(sql);
-						pstat.setString(1, antenna);
-						pstat.executeUpdate();
-
-						conn.commit();
-						pstat.close();
-						conn.close();
-						logger.debug(antenna + ":天线升级成功");
-						break;
-					} catch (Exception e) {
-						e.printStackTrace();
+			
+			if(isSemAvilable)
+			{
+				receivedMessage = Msg;
+	
+					String errHead = antenna + ":";
+					if (receivedMessage.equals("U,P,SUCCESS")) 
+					{
+						try {
+							String sql = "UPDATE tbl_upgraderecord SET successUpgrade = 1 WHERE antenna_no = ?";
+							PreparedStatement pstat = conn.prepareStatement(sql);
+							pstat.setString(1, antenna);
+							pstat.executeUpdate();
+	
+							conn.commit();
+							pstat.close();
+							conn.close();
+							logger.debug(antenna + ":天线升级成功");
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						errHead = "";
+					} 
+					else if(receivedMessage.equals("U,P,ERROR,FORMAT"))
+					{
+							errHead +="参数格式错误(";
 					}
-				} else if (receivedMessage.equals("U,P,ERROR,FORMAT")) 
-				{
-					
-					logger.error(antenna + ":参数格式错误，请检查！！！"+"errorMessage:"+receivedMessage);
+					else if(receivedMessage.equals("U,P,WARN,SAME-GUID")) 
+					{
+						errHead += "参数版本重复(";
+					}
+					else if(receivedMessage.equals("U,P,ERROR,FAILED")) 
+					{
+						errHead += "升级错误(";
+					}  
+					else
+					{
+						errHead += "未知回应(";
+					}
+					if(!errHead.equals(""))
+					{
+						logger.error(errHead + receivedMessage + ")");
+					}
+					//thread terminated when error or success
 					break;
-				}else if(receivedMessage.equals("U,P,WARN,SAME-GUID")) 
-				{
-					logger.error(antenna + ":参数版本重复，请检查！！！"+"errorMessage:"+receivedMessage);
-					break;
-				}else if(receivedMessage.equals("U,P,ERROR,FAILED")) 
-				{
-					logger.error(antenna + ":返回错误信息，请检查！！！"+"errorMessage:"+receivedMessage);
-					break;
-				}  
-				else {
-					logger.error(antenna + "Unkown message:" + receivedMessage);
-					break;
-				}
+				}	
+			int online = SendMessageUtil.selectOnlineByMid(antenna);
+			if(online == 0)
+			{
+				logger.error(antenna+"：终端不在线，将停止发送");
+				//thread terminated when error
+				break;
 			}
-
 		}
+		
 	}
 	
 	
-	
-
 	public void sendMsg(String Msg) {
 		this.Msg = Msg;
-		this.receiveSem = true;
+		recvSemophore.release();
 	}
 }

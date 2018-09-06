@@ -29,10 +29,17 @@ public class ThreadPool {
 			// submit 传一个接口的实现类
 			// 提交一次开一个线程
 			MyRunnable updateThread = new MyRunnable(terms.get(i), content);
+			System.out.println("start thread....");
 			executior.execute(updateThread);
+			
+	
+			System.out.println("start put map...");
 			MyUDPReceive.map.put(terms.get(i), updateThread);
+			System.out.println("start put map second...");
+			
+			
 		}
-		// executior.shutdown();
+		executior.shutdown();
 	}
 
 	public static void ExectorCompletionServiceForUpgrate(UpdateInfo info) {

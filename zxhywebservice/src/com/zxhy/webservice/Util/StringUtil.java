@@ -25,6 +25,24 @@ public class StringUtil {
 	}
 	
 	
+	
+	/**
+	 * 程序升级 生成guid
+	 * @param antenna
+	 * @param content
+	 * @return
+	 */
+	public static String toProgram(String content) {
+		String[] s = content.split(",");
+		StringBuffer strBuffer = new StringBuffer();
+		strBuffer.append(s[2]);
+		strBuffer.append(s[3]);
+		String Message = strBuffer.toString();
+		
+		return Message;
+		
+	}
+	
 	/**
 	 * U,P,content
 	 * @param content
@@ -39,7 +57,11 @@ public class StringUtil {
 		
 		return Message;
 	}
-	
+	/**
+	 * U,S,content
+	 * @param content
+	 * @return
+	 */
 	public static String toText(String content) {
 		StringBuffer strBuffer = new StringBuffer();
 		strBuffer.append("U,");
@@ -48,6 +70,20 @@ public class StringUtil {
 		String text = strBuffer.toString();
 		return text;
 	}
+	/**
+	 * U,X,content
+	 * @param content
+	 * @return
+	 */
+	public static String toProgramContent(String content) {
+		StringBuffer strBuffer = new StringBuffer();
+		strBuffer.append("U,");
+		strBuffer.append("X,");
+		strBuffer.append(content);
+		String text = strBuffer.toString();
+		return text;
+	}
+	
 	
 	/**
 	 * U,P,GUID

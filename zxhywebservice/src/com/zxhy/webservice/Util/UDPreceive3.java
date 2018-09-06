@@ -23,7 +23,7 @@ public class UDPreceive3 {
 			try {
 				// 创建数据包传输对象DatagramSocket 绑定端口号
 
-				ds = new DatagramSocket(9000);
+				ds = new DatagramSocket(7000);
 				// 创建字节数组
 				byte[] data = new byte[1024];
 				// 创建数据包对象,传递字节数组
@@ -36,7 +36,7 @@ public class UDPreceive3 {
 
 				InetAddress inet = InetAddress.getByName("127.0.0.1");
 
-				byte[] date2 = "004,U,P,SUCCESS".getBytes();
+				byte[] date2 = "221363,U,P,OK".getBytes();
 
 				DatagramPacket response = new DatagramPacket(date2, date2.length, inet, 6000);
 

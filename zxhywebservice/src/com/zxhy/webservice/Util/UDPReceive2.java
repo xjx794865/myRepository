@@ -37,7 +37,7 @@ public class UDPReceive2 {
 			try {
 				// 创建数据包传输对象DatagramSocket 绑定端口号
 
-				ds = new DatagramSocket(8000);
+				ds = new DatagramSocket(5000);
 				// 创建字节数组
 				byte[] data = new byte[1024];
 				// 创建数据包对象,传递字节数组
@@ -51,7 +51,7 @@ public class UDPReceive2 {
 
 				InetAddress inet = InetAddress.getByName("127.0.0.1");
 
-				byte[] date2 = "003,U,P,SUCCESS".getBytes();
+				byte[] date2 = "001,U,P,OK".getBytes();
 				// socket = new DatagramSocket();
 				DatagramPacket response = new DatagramPacket(date2, date2.length, inet, 6000);
 
