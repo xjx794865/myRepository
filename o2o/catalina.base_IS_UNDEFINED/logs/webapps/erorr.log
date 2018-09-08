@@ -1,2 +1,0 @@
-2018-06-15 12:49:23.080 [main] ERROR com.o98k.o2o.util.ImageUtil - java.io.FileNotFoundException: Could not find file: D:\picture.001.jpg
-2018-06-15 12:49:40.886 [main] ERROR com.o98k.o2o.util.ImageUtil - java.io.FileNotFoundException: Could not find file: D:\picture.001.jpg

@@ -36,8 +36,8 @@ public class InsertionSort {
 	// ≤‚ ‘InsertionSort
 	public static void main(String[] args) {
 
-		int N = 5;
-		Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 5);
+		
+		Integer[] arr = {8,7,6,5};
 		InsertionSort.sort(arr);
 		for (int i = 0; i < arr.length; i++) {
 			System.out.print(arr[i] + " ");
